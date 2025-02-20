@@ -1,10 +1,19 @@
 <template>
+  <Notification class="fixed" />
+  <Loading v-if="$gloading.loading" />
   <router-view/>
 </template>
 
 <script>
+import Notification from './components/notification.vue'
+import Loading from './components/loading.vue'
+
 export default {
-    name: "App"
+    name: "App",
+    components: {
+      Notification,
+      Loading
+    }
 }
 </script>
 

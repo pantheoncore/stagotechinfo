@@ -1,26 +1,33 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "./views/Home.vue";
+import Dashboard from "./views/Dashboard.vue";
+import NotFound from "./views/NotFound.vue";
 
 const routes = [
-    // {
-    //     // Catch all for routes that do not exist
-    //     path: "/:catchAll(.*)",
-    //     name: "NotFound",
-    //     component: NotFound,
-    // },
+    {
+        // Catch all for routes that do not exist
+        path: "/:catchAll(.*)",
+        name: "NotFound",
+        component: NotFound,
+    },
     {
         path: "/",
         name: "Home",
         component: Home,
     },
-    // {
-    //     // restricted view that required authentication to enter
-    //     path: "/dashboard",
-    //     name: "Dashboard",
-    //     component: Dashboard,
-    //     beforeEnter: validateAccessToken,
-    // },
+    {
+        path: "/a",
+        beforeEnter: validateAccessToken,
+        // restricted views that required authentication to enter
+        children: [
+            {
+                path: "dashboard",
+                name: "Dashboard",
+                component: Dashboard
+            },
+        ]
+    }
 ];
 
 const router = createRouter({
@@ -29,7 +36,11 @@ const router = createRouter({
 });
 
 async function validateAccessToken(to, from, next) {
-    next();
+    // Set app in window so that router can access it
+    const app = window.stago_app.config.globalProperties;
+    const valid = await app.$session.validate()
+    
+    valid ? next() : next({name: "Home", query: {then: to.path}});
 }
 
 export default router

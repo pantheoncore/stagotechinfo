@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel Project</title>
+        <title>Stago Tech Info</title>
         @vite('resources/css/app.css')
     </head>
 
