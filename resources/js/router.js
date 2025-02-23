@@ -4,6 +4,8 @@ import Home from "./views/Home.vue";
 import Dashboard from "./views/Dashboard.vue";
 import NotFound from "./views/NotFound.vue";
 
+import SystemsOverview from "./views/System.vue";
+
 const routes = [
     {
         // Catch all for routes that do not exist
@@ -26,6 +28,11 @@ const routes = [
                 name: "Dashboard",
                 component: Dashboard
             },
+            {
+                path: "systems/overview/:id",
+                name: "System Overview",
+                component: SystemsOverview
+            }
         ]
     }
 ];

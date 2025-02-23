@@ -1,26 +1,29 @@
 <template>
-    <navbar active="dashboard" :systems="systems" />
+    <navbar active="dashboard" />
 
-    <div v-if="ready" class="px-4 md:px-8 pt-[75px] bg-gray-100 min-h-screen z-[40]">
+    <div v-if="ready" class="px-4 md:px-8 py-[75px] bg-white min-h-screen z-[40]">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-xl font-bold text-gray-700">Active Systems</h1>
-            <button v-if="session.role == 'admin'" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a]"
+            <button v-if="session.role == 'admin'" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a] flex items-center gap-4"
                 @click="showCreateModal = true">
-                + New System
+                <Icon icon="line-md:plus" height="24px"  />
+                <p>New System</p>
             </button>
         </div>
 
         <!-- Systems Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Systems -->
-            <a :href="`/a/systems/${system.id}`" v-for="system in systems" :key="system.id"
-                class="bg-white rounded-lg shadow-md overflow-hidden grid grid-cols-2 h-[200px]">
-                <img :src="system.image_url" :alt="system.name" class="w-full h-full object-cover" />
+            <a :href="`/a/systems/overview/${system.id}`" v-for="system in systems" :key="system.id"
+                class="bg-white rounded-lg shadow-md overflow-hidden grid gap-4 p-4 h-fit border-[1px] border-[#c4c4c4]/50">
+                <div class="w-full h-[200px]">
+                    <img :src="system.image_url" :alt="system.name" class="w-full h-full object-cover rounded-[4px]" />
+                </div>
 
-                <div class="h-fit p-4 grid gap-2">
+                <div class="h-fit grid">
                     <h2 class="text-lg font-semibold text-gray-800 whitespace-nowrap truncate">{{ system.name }}</h2>
-                    <p class="text-sm text-gray-600 line-clamp-6">{{ system.desc }}</p>
+                    <p class="text-sm text-gray-600 line-clamp-2">{{ system.desc }}</p>
                 </div>
             </a>
         </div>
@@ -28,7 +31,7 @@
         <!-- Create System Modal -->
         <div v-if="showCreateModal"
             class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 grid h-fit max-h-[400px] overflow-y-auto">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 grid h-fit max-h-[500px] overflow-y-auto">
                 <h2 class="text-xl font-bold text-gray-700 mb-4">Create New System</h2>
                 <form @submit.prevent="createSystem">
                     <!-- Name Input -->
@@ -37,7 +40,7 @@
                             Name
                         </label>
                         <input type="text" id="name" v-model="newSystem.name" placeholder="Enter system name" required
-                            class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                            class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px]" />
                     </div>
 
                     <!-- Image URL Input -->
@@ -46,7 +49,7 @@
                             Image URL
                         </label>
                         <input type="url" id="image" v-model="newSystem.image_url" placeholder="Enter image URL" required
-                            class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+                            class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px]" />
                     </div>
 
                     <!-- Description Input -->
@@ -56,7 +59,7 @@
                         </label>
                         <textarea id="description" v-model="newSystem.desc"
                             placeholder="Enter system description" required rows="3"
-                            class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 max-h-[300px]"></textarea>
+                            class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px] max-h-[300px]"></textarea>
                     </div>
 
                     <!-- Buttons -->
@@ -77,6 +80,7 @@
 
 <script>
 
+import { Icon } from '@iconify/vue';
 import navbar from '../components/navbar.vue';
 
 export default {
@@ -125,7 +129,8 @@ export default {
         }
     },
     components: {
-        navbar
+        navbar,
+        Icon
     }
 }
 </script>

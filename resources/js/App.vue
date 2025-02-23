@@ -41,7 +41,12 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-input[type="text"]:focus{
+input:focus{
+  outline: none !important;
+  --tw-ring-color: transparent !important;
+}
+
+textarea:focus{
   outline: none !important;
   --tw-ring-color: transparent !important;
 }
