@@ -42,3 +42,16 @@ Way to get directly back to the home page
 User Management
 
 add things like different, software versions and other custom categories that can be selected for each item / part, this will be a dynamic part of the systems for each type created like Software Versions, the user can also create multiple options for it and associate those with the parts
+
+
+## Questions
+
+1. What fields will software have, since I dont think they will have the same things that hardware does
+2. Will Software only be associated under hardware?
+   1. Will multiple piecies of hardware share the same software
+   2. Software will never have a hardware sub item as it first needs to be assocaited to a piece of hardware (this is dependant on the questions above)
+3. What are the fields / layout for procedures
+   1. Will procedures only be assigned to hardware and software?
+4. For common problems should we also provide an associated solution
+   1. Could common problems and the troubleshooting guide be combined into problem and solution
+5. For Dynamic fields all of them will be a dropdown or multiselect correct
