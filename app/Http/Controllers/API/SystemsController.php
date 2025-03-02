@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\system_applications;
 use App\Models\systems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -59,7 +60,14 @@ class SystemsController extends Controller
             return response()->json(["message"=> "the requested system was not found"], 404);
         }
 
-        return response()->json(["system"=> $system]);
+        $response = [
+            "system"=> $system,
+            "items"=> [
+                "software"=> system_applications::where('system_id', $id)->get()
+            ]
+        ];
+
+        return response()->json($response);
     }
 
     /**

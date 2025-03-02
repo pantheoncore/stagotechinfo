@@ -4,7 +4,7 @@
     <div v-if="ready" class="px-4 md:px-8 py-[75px] bg-white min-h-screen z-[40]">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-xl font-bold text-gray-700">Active Systems</h1>
+            <h1 class="text-xl font-bold text-gray-700">Active Analyzer(s)</h1>
             <button v-if="session.role == 'admin'" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a] flex items-center gap-4"
                 @click="showCreateModal = true">
                 <Icon icon="line-md:plus" height="24px"  />
@@ -32,7 +32,7 @@
         <div v-if="showCreateModal"
             class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 grid h-fit max-h-[500px] overflow-y-auto">
-                <h2 class="text-xl font-bold text-gray-700 mb-4">Create New System</h2>
+                <h2 class="text-xl font-bold text-gray-700 mb-4">Create New Analyzer</h2>
                 <form @submit.prevent="createSystem">
                     <!-- Name Input -->
                     <div class="mb-4">

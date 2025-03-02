@@ -42,15 +42,52 @@
                 <!-- system image -->
                 <a :href="system.image_url" target="_blank" class="md:hidden text-[16px] underline text-gray-700">View System Image</a>
 
+                <!-- Operating System -->
+                <p class="text-[16px] text-[#78716c] flex items-center gap-2 "><span class="text-gray-700"><span class="font-medium">Operating System:</span> </span> {{ system.os.name }} <span class="text-white bg-black rounded-full px-2 text-[14px]">v({{ system.os.version }})</span></p>
+
                 <!-- System Desc -->
-                <p class="text-[16px] text-[#78716c] line-clamp-6"><span class="text-gray-700">System Description: </span> {{ system.desc }}</p>
+                <p class="text-[16px] text-[#78716c]"><span class="text-gray-700"><span class="font-medium">Description:</span>: </span> {{ system.desc }}</p>                
             </div>
 
-            <!-- hardware -->
+            <!-- software -->
             <div class="bg-white md:rounded-lg overflow-hidden grid gap-6 md:gap-12 h-fit md:p-8 md:border-[1px] border-[#c4c4c4]/50">
                 <!-- header -->
                 <div class="w-full h-fit grid gap-4 items-center relative">
-                    <h1 class="text-[20px] font-medium text-gray-700">Hardware Items</h1>
+                    <h1 class="text-[20px] font-medium text-gray-700">System Application(s)</h1>
+
+                    <button v-if="session.role == 'admin'" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a] flex items-center gap-4 w-fit md:right-0 md:absolute"
+                        @click="create_application = true">
+                        <Icon icon="line-md:plus" height="24px"  />
+                        <p>Add Item</p>
+                    </button>
+                </div>
+
+                <!-- items -->
+                <div v-if="items.software.length > 0" class="w-full h-fit max-h-[500px] md:max-h-[830px] overflow-y-auto grid gap-x-8 gap-y-4 pb-2">
+                    <!-- headers -->
+                    <p class="bg-white rounded-lg overflow-hidden grid gap-4 h-fit px-4 md:px-8">
+                        <div class="w-full h-full relative hidden md:grid md:grid-cols-2 gap-4">
+                            <p class="text-[16px] md:text-[18px] text-[#0C0A09] font-medium line-clamp-6 truncate">Application Name</p>
+
+                            <p class="text-[16px] md:text-[18px] text-[#0C0A09] font-medium line-clamp-6 truncate whitespace-nowrap">Version</p>
+                        </div>
+                    </p>
+
+                    <a v-for="(item, index) in items.software" :href="`/a/systems/item/${item.id}`" class="bg-white shadow-sm rounded-lg overflow-hidden grid gap-4 h-fit p-4 md:px-8 md:py-4 border-[1px] border-[#c4c4c4]/50">
+                        <div class="w-full h-full relative grid md:grid-cols-2 gap-1 md:gap-4">
+                            <p class="text-[16px] md:text-[18px] text-[#0C0A09] font-medium line-clamp-6 truncate">{{ item.name }}</p>
+
+                            <p class="w-fit h-fit px-4 bg-black rounded-full text-white text-[14px] md:text-[16px] whitespace-nowrap font-bold">{{ item.version }}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- modules -->
+            <div class="bg-white md:rounded-lg overflow-hidden grid gap-6 md:gap-12 h-fit md:p-8 md:border-[1px] border-[#c4c4c4]/50">
+                <!-- header -->
+                <div class="w-full h-fit grid gap-4 items-center relative">
+                    <h1 class="text-[20px] font-medium text-gray-700">Modules</h1>
 
                     <button v-if="session.role == 'admin'" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a] flex items-center gap-4 w-fit md:right-0 md:absolute"
                         @click="showCreateModal = true">
@@ -66,7 +103,7 @@
                             <img :src="item.image_url" :alt="item.name" class="w-full h-full object-cover rounded-[8px]" />
                         </div>
 
-                        <div class="w-full h-full relative grid gap-4">
+                        <!-- <div class="w-full h-full relative grid gap-4">
                             <div class="w-full h-fit grid">
                                 <p class="text-[16px] md:text-[18px] text-[#0C0A09] font-medium line-clamp-6 truncate whitespace-nowrap">{{ item.name }}</p>
                                 <p class="text-[14px] md:text-[16px] text-[#78716c] truncate whitespace-nowrap">Part #: {{ item.part_num }}</p>
@@ -77,36 +114,14 @@
                             <div class="md:bottom-0 md:left-0 md:absolute">
                                 <p class="w-fit h-fit px-4 py-1 bg-black rounded-full text-white text-[14px] md:text-[16px]">Common Problems: <span class="font-bold">{{ item.common_problems }}</span></p>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+                        </div> -->
 
-            <!-- software -->
-            <div class="bg-white md:rounded-lg overflow-hidden grid gap-6 md:gap-12 h-fit md:p-8 md:border-[1px] border-[#c4c4c4]/50">
-                <!-- header -->
-                <div class="w-full h-fit grid gap-4 items-center relative">
-                    <h1 class="text-[20px] font-medium text-gray-700">Software Items</h1>
-
-                    <button v-if="session.role == 'admin'" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a] flex items-center gap-4 w-fit md:right-0 md:absolute"
-                        @click="showCreateModal = true">
-                        <Icon icon="line-md:plus" height="24px"  />
-                        <p>Add Item</p>
-                    </button>
-                </div>
-
-                <!-- items -->
-                <div class="w-full h-fit max-h-[500px] md:max-h-[830px] overflow-y-auto grid md:grid-cols-3 gap-x-8 gap-y-4 pb-2">
-                    <a v-for="(item, index) in items.software" :href="`/a/systems/item/${item.id}`" class="bg-white shadow-sm rounded-lg overflow-hidden grid md:grid-cols-2 gap-4 h-fit p-4 md:p-8 border-[1px] border-[#c4c4c4]/50">
                         <div class="w-full h-full relative grid gap-4">
                             <div class="w-full h-fit grid">
                                 <p class="text-[16px] md:text-[18px] text-[#0C0A09] font-medium line-clamp-6 truncate whitespace-nowrap">{{ item.name }}</p>
-                                <p class="text-[14px] md:text-[16px] text-[#78716c] truncate whitespace-nowrap">Part #: {{ item.part_num }}</p>
 
                                 <p class="text-[14px] md:text-[16px] text-[#78716c] mt-2 line-clamp-3 md:line-clamp-2">{{ item.desc }}</p>
                             </div>
-
-                            <p class="w-fit h-fit px-4 py-1 bg-black rounded-full text-white text-[14px] md:text-[16px]">Common Problems: <span class="font-bold">{{ item.common_problems }}</span></p>
                         </div>
                     </a>
                 </div>
@@ -138,6 +153,24 @@
                                 <input type="url" id="image" v-model="newSystem.image_url" placeholder="Enter image URL" required
                                     class="mt-1 block w-full border-gray-300 rounded-md ring-0 focus:border-[1px] py-1 px-2 shadow-sm border-[1px] text-[14px] md:text-[16px]" />
                             </div>
+
+                            <!-- OS -->
+                            <div>
+                                <label for="os" class="block text-sm font-medium text-gray-700">
+                                    Operating System
+                                </label>
+                                <input type="text" id="os" v-model="newSystem.os.name" placeholder="Enter operating system" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px] text-[14px] md:text-[16px]" />
+                            </div>
+
+                            
+                            <div>
+                                <label for="os_version" class="block text-sm font-medium text-gray-700">
+                                    OS Version
+                                </label>
+                                <input type="text" id="os" v-model="newSystem.os.version" placeholder="Enter operating system version" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px] text-[14px] md:text-[16px]" />
+                            </div>
                         </div>
 
                         <!-- Description Input -->
@@ -164,6 +197,47 @@
                 </form>
             </div>
         </div>
+
+        <!-- Create System Application -->
+        <div v-if="create_application"
+            class="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-lg w-[90%] md:w-1/2 p-6 grid h-fit max-h-[600px] overflow-y-auto">
+                <h2 class="text-xl font-bold text-gray-700 mb-4">Create Application</h2>
+                <form @submit.prevent="createApplication">
+                    <div class="w-full grid gap-4 mb-4">
+                        <div class="w-full h-fit grid gap-4">
+                            <!-- Name Input -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">
+                                    Name
+                                </label>
+                                <input type="text" id="name" v-model="newApplication.name" placeholder="Enter application name" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px] text-[14px] md:text-[16px]" />
+                            </div>
+                            
+                            <div>
+                                <label for="os_version" class="block text-sm font-medium text-gray-700">
+                                    Version
+                                </label>
+                                <input type="text" id="os" v-model="newApplication.version" placeholder="Enter application version" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md py-1 px-2 shadow-sm border-[1px] text-[14px] md:text-[16px]" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" @click="create_application = false"
+                            class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-[#262D3E] text-white px-4 py-2 rounded-md hover:bg-[#38425a]">
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -180,17 +254,31 @@ export default {
             ready: false,
             edit: false,
 
+            create_application: false,
+
             system: {
                 id: null,
                 name: "",
                 desc: "",
-                image_url: "#"
+                image_url: "#",
+                os: {
+                    name: "",
+                    version: ""
+                }
             },
             newSystem: {
                 id: null,
                 name: "",
                 desc: "",
-                image_url: "#"
+                image_url: "#",
+                os: {
+                    name: "",
+                    version: ""
+                }
+            },
+            newApplication: {
+                name: "",
+                version: ""
             },
 
             items: {
@@ -199,27 +287,14 @@ export default {
                         image_url: "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                         name: "Robotics Update",
                         part_num: "234234234",
-                        desc: "Integer turpis eros, pretium eu ligula quis, luctus luctus lacus. Aliquam feugiat efficitur eros et dignissim. Ut sagittis euismod sapien, ac vulputate diam pellentesque eu."
+                        desc: "Integer turpis eros, pretium eu ligula quis, luctus luctus lacus. Aliquam feugiat efficitur eros et dignissim. Ut sagittis euismod sapien, ac vulputate diam pellentesque eu.",
+                        common_problems: 3
                     }
                 ],
                 software: [
                     {
-                        image_url: "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                        name: "Robotics Update",
-                        part_num: "234234234",
-                        desc: "Integer turpis eros, pretium eu ligula quis, luctus luctus lacus. Aliquam feugiat efficitur eros et dignissim. Ut sagittis euismod sapien, ac vulputate diam pellentesque eu."
-                    },
-                    {
-                        image_url: "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                        name: "Robotics Update",
-                        part_num: "234234234",
-                        desc: "Integer turpis eros, pretium eu ligula quis, luctus luctus lacus. Aliquam feugiat efficitur eros et dignissim. Ut sagittis euismod sapien, ac vulputate diam pellentesque eu."
-                    },
-                    {
-                        image_url: "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                        name: "Robotics Update",
-                        part_num: "234234234",
-                        desc: "Integer turpis eros, pretium eu ligula quis, luctus luctus lacus. Aliquam feugiat efficitur eros et dignissim. Ut sagittis euismod sapien, ac vulputate diam pellentesque eu."
+                        name: "Excel",
+                        version: "random"
                     },
                 ]
             }
@@ -243,6 +318,12 @@ export default {
                     image_url: "#"
                 }
             }
+        },
+        create_application: function(value) {
+            this.newApplication = {
+                name: "",
+                version: ""
+            }
         }
     },
     methods: {
@@ -254,6 +335,7 @@ export default {
 
             if(res.status == 200){
                 this.system = res.data.system;
+                this.items = res.data.items;
             }
         },
         async updateSystem(){
@@ -264,6 +346,18 @@ export default {
 
             if(res.status == 200){
                 this.edit = false;
+                this.getSystem();
+            }
+        },
+
+        async createApplication() {
+            this.$gloading.start();
+
+            const res = await this.$apiHandler.post(`systems/create-application/${this.$route.params.id}`, this.newApplication, {title: 'Create Application'});
+            this.$gloading.stop();
+
+            if(res.status == 200){
+                this.create_application = false;
                 this.getSystem();
             }
         }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\SystemApplications;
 use App\Http\Controllers\API\SystemsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,5 +40,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('create', [SystemsController::class, 'create']);
         Route::get('overview/{id}', [SystemsController::class, 'overview']);
         Route::post('update/{id}', [SystemsController::class, 'update']);
+
+        Route::post('create-application/{system_id}', [SystemApplications::class, 'create']);
     });
 });
